@@ -1,0 +1,160 @@
+openapi: 3.0.0
+info:
+  title: Shopping Cart API
+  version: 1.0.0
+  description: APIs to manage a shopping cart
+
+paths:
+  /cart/Allproducts:
+    post:
+      summary: Add all products to the cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cartId:
+                  type: string
+                  format: uuid
+                  readOnly: true
+      responses:
+        '200':
+          description: All products added to the cart successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  cart:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            cartId:
+                              type: string
+                              format: uuid
+                            productId:
+                              type: string
+                            quantity:
+                              type: integer
+   
+  /cart/:
+    get:
+      summary: View All product in  cart
+      responses:
+        '200':
+          description: Current products in the shopping cart
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cart:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                         
+                            productId:
+                              type: string
+                            quantity:
+                              type: integer
+
+
+  /cart/products/{productId}:
+    put:
+      summary: Update product in the cart
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+      responses:
+        '200':
+          description: Cart product updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  cart:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            productId:
+                              type: string
+                            quantity:
+                              type: integer
+
+
+    delete:
+      summary: Remove product from the cart
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product removed from the cart successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  cart:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            productId:
+                              type: string
+                            quantity:
+                              type: integer
+
+
+  /cart/products/remove-all:
+    delete:
+      summary: Remove all products from the cart
+      responses:
+        '200':
+          description: All products removed from the cart successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

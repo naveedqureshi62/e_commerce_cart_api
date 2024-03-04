@@ -1,0 +1,88 @@
+service: cart
+
+plugins:
+  - serverless-offline
+
+custom:
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+      seed: true
+
+provider:
+  name: aws
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: "arn:aws:dynamodb:ddblocal:000000000000:table/cart"
+
+functions:
+  addToCart:
+    handler: addToCart.addToCart
+    events:
+      - http:
+          path: cart/add
+          method: post
+          cors: true
+  updateCart:
+    handler: updateCart.updateCart
+    events:
+      - http:
+          path: cart/update/{productId}
+          method: PUT
+          cors: true
+  removeFromCart:
+    handler: removeFromCart.removeFromCart
+    events:
+      - http:
+          path: cart/remove/{productId}
+          method: DELETE
+          cors: true
+  removeAllFromCart:
+    handler: removeAllFromCart.removeAllFromCart
+    events:
+      - http:
+          path: cart/removeAll
+          method: DELETE
+          cors: true
+  viewCart:
+    handler: viewCart.viewCart
+    events:
+      - http:
+          path: cart
+          method: get
+          cors: true
+  addCart:
+    handler: addCart.addToCart
+    events:
+      - http:
+          path: cart/addCart
+          method: post
+          cors: true
+  getAllCart:
+    handler: getAllCart.getAllCart
+    events:
+      - http:
+          path: cart/getAllCart
+          method: get
+          cors: true
+
+
+resources:
+  Resources:
+    ShoppingCartTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: cart
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
