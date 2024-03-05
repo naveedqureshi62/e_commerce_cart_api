@@ -52,7 +52,7 @@ functions:
     handler: viewCart.viewCart
     events:
       - http:
-          path: cart
+          path: cart/{cartItemId}
           method: get
           cors: true
   addCart:

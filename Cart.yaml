@@ -15,7 +15,7 @@ paths:
             schema:
               type: object
               properties:
-                cartId:
+                cartItemId:
                   type: string
                   format: uuid
                   readOnly: true
@@ -37,15 +37,20 @@ paths:
                         items:
                           type: object
                           properties:
-                            cartId:
+                            cartItemId:
                               type: string
                               format: uuid
                             productId:
                               type: string
+                              format: uuid
                             quantity:
                               type: integer
+                            price:
+                              type: number
+                            totalPrice:
+                              type: number
    
-  /cart/:
+  /dev/cart/getAllCart   :
     get:
       summary: View All product in  cart
       responses:
@@ -64,14 +69,21 @@ paths:
                         items:
                           type: object
                           properties:
-                         
                             productId:
                               type: string
+                              format: uuid
+                            cartItemId:
+                              type: string
+                              format: uuid
                             quantity:
+                              type: integer
+                            price:
+                              type: integer
+                            totalPrice:
                               type: integer
 
 
-  /cart/products/{productId}:
+  /dev/cart/update/{productId}:
     put:
       summary: Update product in the cart
       parameters:
@@ -109,8 +121,16 @@ paths:
                           properties:
                             productId:
                               type: string
+                              format: uuid
+                            cartItemId:
+                              type: string
+                              format: uuid
                             quantity:
                               type: integer
+                            price:
+                              type: number
+                            totalPrice:
+                              type: number
 
 
     delete:
@@ -141,11 +161,11 @@ paths:
                           properties:
                             productId:
                               type: string
-                            quantity:
-                              type: integer
+                              format: uuid
+                            
 
 
-  /cart/products/remove-all:
+  /dev/cart/removeAll  :
     delete:
       summary: Remove all products from the cart
       responses:
